@@ -6,7 +6,7 @@ Back-end : Thanks https://cnodejs.org/ providing free API
 
 This is forum for both front-end developer and back-end developer(NodeJS)
 
-Not finish yet,  still in building.
+Not finish yet,  still in building, I will update it daily ~
 
 Luke
 
