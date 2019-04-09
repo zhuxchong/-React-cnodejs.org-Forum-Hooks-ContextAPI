@@ -7,6 +7,7 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { getDiff } from "../utility";
 
 const styles = theme => ({
   root: {
@@ -24,82 +25,72 @@ const styles = theme => ({
   }
 });
 
-class ControlledExpansionPanels extends React.Component {
-  state = {
-    expanded: null
+const ControlledExpansionPanels = props => {
+  const [expanded, setExpanded] = useState(null);
+
+  const handleChange = panel => (event, expanded) => {
+    const temp = expanded ? panel : false;
+    setExpanded(temp);
   };
 
-  handleChange = panel => (event, expanded) => {
-    this.setState({
-      expanded: expanded ? panel : false
-    });
-  };
+  const { classes } = props;
+  let count = 1;
+  return (
+    <React.Fragment>
+      <div className={classes.root}>
+        <ExpansionPanel
+          expanded={expanded === "panel1"}
+          onChange={handleChange("panel1")}
+          className={classes.elevation2}
+        >
+          <ExpansionPanelSummary>
+            <Typography
+              style={{ flexBasis: "70%" }}
+              className={classes.heading}
+            >
+              Title
+            </Typography>
+            <Typography className={classes.heading}>Author</Typography>
+            <Typography className={classes.secondaryHeading}>day</Typography>
+          </ExpansionPanelSummary>
+        </ExpansionPanel>
 
-  render() {
-    const { classes } = this.props;
-    const { expanded } = this.state;
+        {props.topic.map((i, index) => {
+          count++;
+          return (
+            <ExpansionPanel
+              expanded={expanded === `panel${count}`}
+              onChange={handleChange(`panel${count}`)}
+              key={index}
+            >
+              <ExpansionPanelSummary>
+                <Typography
+                  style={{ flexBasis: "70%" }}
+                  className={classes.heading}
+                >
+                  {i.artical.title}
+                </Typography>
+                <Typography className={classes.heading}>
+                  {i.authorName}
+                </Typography>
+                <Typography className={classes.secondaryHeading}>
+                  {getDiff(i.artical.lastReply)}天前
+                </Typography>
+              </ExpansionPanelSummary>
+            </ExpansionPanel>
+          );
+        })}
 
-    return (
-      <React.Fragment>
-        <div className={classes.root}>
-          <ExpansionPanel
-            expanded={expanded === "panel1"}
-            onChange={this.handleChange("panel1")}
-          >
-            <ExpansionPanelSummary>
-              <Typography
-                style={{ flexBasis: "10%" }}
-                className={classes.heading}
-              >
-                visit
-              </Typography>
-              <Typography
-                style={{ flexBasis: "60%" }}
-                className={classes.heading}
-              >
-                Title
-              </Typography>
-              <Typography className={classes.heading}>Author</Typography>
-              <Typography className={classes.secondaryHeading}>day</Typography>
-            </ExpansionPanelSummary>
-          </ExpansionPanel>
-          <ExpansionPanel
-            expanded={expanded === "panel2"}
-            onChange={this.handleChange("panel2")}
-          >
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography
-                style={{ flexBasis: "10%" }}
-                className={classes.heading}
-              >
-                99/123
-              </Typography>
-              <Typography
-                style={{ flexBasis: "60%" }}
-                className={classes.heading}
-              >
-                socket.io 中的 socket.request.session 无法获取连接成功之后设置的
-                session
-              </Typography>
-              <Typography className={classes.heading}>
-                hellomrbigshot
-              </Typography>
-              <Typography className={classes.secondaryHeading}>
-                0 days ago
-              </Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <Typography>
-                Nulla facilisi. Phasellus sollicitudin nulla et quam mattis
-                feugiat. Aliquam eget maximus est, id dignissim quam.
-              </Typography>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-        </div>
-      </React.Fragment>
-    );
-  }
-}
+        {/* <ExpansionPanelDetails>
+            <Typography>
+              Nulla facilisi. Phasellus sollicitudin nulla et quam mattis
+              feugiat. Aliquam eget maximus est, id dignissim quam.
+            </Typography>
+          </ExpansionPanelDetails> */}
+      </div>
+    </React.Fragment>
+  );
+};
 
 ControlledExpansionPanels.propTypes = {
   classes: PropTypes.object.isRequired
