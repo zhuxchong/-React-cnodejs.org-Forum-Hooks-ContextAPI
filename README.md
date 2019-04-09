@@ -1,3 +1,18 @@
+This is a personal project:
+
+Front-end : ReactJS (Hooks + ContextAPI), further maybe add redux version if possible ^_^,
+
+Back-end : Thanks https://cnodejs.org/ providing free API
+
+This is forum for both front-end developer and back-end developer(NodeJS)
+
+Not finish yet,  still in building, I will update it daily ~
+
+Luke
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
